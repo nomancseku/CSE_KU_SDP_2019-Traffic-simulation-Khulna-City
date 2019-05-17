@@ -6,7 +6,7 @@ Developers: Abdullah Al Noman (160217) Talha Al Junaid (170221) Sharder Shams Ma
 
 Programming Language: C#
 
-Project Platform: Unity
+Project Platform: Unity(2018.3)
 
 Project Type: Desktop Application
 
