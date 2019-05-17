@@ -1,0 +1,74 @@
+This manual is created by -->Noman
+CSE Khulna University,Khulna
+------------------------------------------------------------
+
+1.node file(.nod.xml) creation
+
+<nodes>
+<node id="n1" x = "-500" y="0" type="priority"/>
+<node id="n2" x = "-250" y="0" type="traffic_light"/>
+<node id="n3" x = "-150" y="200" type="traffic_light"/>
+<node id="n4" x = "0" y="0"/>
+<node id="n5" x = "150" y="200"/>
+</nodes>
+
+2. Edge file (.edg.xml) define the connect node together to form links.
+<edges>
+<edge from="n1" to="n2" id="1to2" type="3L45"/>
+<edge from="n2" to="n3" id="2to3" type="2L15"/>
+<edge from="n3" to="n4" id="3to4" type="3L30"/>
+<edge from="n4" to="n5" id="out" type="3L30"/>
+</edges>
+
+3. Type file (.type.xml) include road priority, the number of lanes, speed limit, type of vehicles allow, etc.
+<types>
+<type id="3L45" priority="3"numLanes="3" speed="45"/>
+<type id="2L15" priority="3"numLanes="2" speed="15"/>
+<type id="3L30" priority="2"numLanes="3" speed="30"/>
+</types>
+
+4.
+	node file(.nod.xml)
+		+
+	Edge file (.edg.xml)
+		+
+	Type file (.type.xml)
+		=
+	mynet.net.xml 
+
+5. netconvert command
+netconvert --node-files my_nodes.nod.xml --edge-files my_edge.edg.xml -t my_type.type.xml -o my_net.net.xml
+here -t = type
+     -o = output
+
+6. Route file (.rou.xml)
+<routes>
+<vType accel="1.0" decel="5.0" id="Car" length="2.0" maxSpeed="100.0" sigma="0.0" />
+<vType accel="1.0" decel="5.0" id="Bus" length="12.0" maxSpeed="1.0" sigma="0.0" />
+
+<route id="route0" edges="1to2 2to3"/>
+<vehicle depart="10" id="veh0" route="route0" type="Bus"/>
+<route id="route1" edges="2to3 3to4"/>
+<vehicle depart="10" id="veh1" route="route1" type="Car"/>
+<route id="route2" edges="3to4 out"/>
+<vehicle depart="30" id="veh2" route="route2" type="Car"/>
+</routes>
+
+7. The sumo configuration file (.sumocfg)
+<configuration>
+
+<input>
+<net-file value="my_net.net.xml"/>
+<route-files value="my_route.rou.xml"/>
+</input>
+<time>
+<begin value="0"/>
+<end value="2000"/>
+</time>
+
+</configuration>
+
+8. You can open sumo by command line using
+	sumo -c my_config_file.sumocfg
+	OR
+	sumo-gui -c my_config_file.sumocfg
